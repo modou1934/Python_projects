@@ -1,7 +1,11 @@
 from requests import get
 from pprint import PrettyPrinter
+from dotenv import load_dotenv
+import os
 
-BASE_URL = "https://v6.exchangerate-api.com/v6/30fb0a3791b2bae25b835e48/latest/USD"
+load_dotenv()  # Carica .env automaticamente
+
+BASE_URL = f"https://v6.exchangerate-api.com/v6/{os.getenv('api_key_currency_converter')}/latest/USD"
 
 printer = PrettyPrinter()
 def get_currencies():
@@ -17,7 +21,7 @@ def print_currencies(currencies):
         print(f"{id} - {value}")
     
 def exchange_rate(currency1, currency2):
-    enpoint = f"https://v6.exchangerate-api.com/v6/30fb0a3791b2bae25b835e48/pair/{currency1}/{currency2}"
+    enpoint = f"https://v6.exchangerate-api.com/v6/{os.getenv('api_key_currency_converter')}/pair/{currency1}/{currency2}"
     data = get(enpoint).json()
     if data.get('result') == 'error':
         return f"Error: {data.get('error-type')}"
